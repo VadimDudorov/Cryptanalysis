@@ -2,6 +2,7 @@ package main.javarush.cryptoanalysis.view;
 
 import main.javarush.cryptoanalysis.entity.Result;
 import main.javarush.cryptoanalysis.exception.CryptanalysisException;
+import main.javarush.cryptoanalysis.repository.ResultCode;
 
 import java.util.Scanner;
 
@@ -12,24 +13,24 @@ public class ConsoleView implements View {
 
     @Override
     public String[] collectingInformation() {
-        Scanner scanner = new Scanner(System.in);
         String[] parameters = new String[4];
-        parameters[0] = selectMode(scanner);
-        parameters[1] = inputValidatePath(scanner);
-        parameters[2] = outputValidatePath(scanner);
+        parameters[0] = selectMode();
+        parameters[1] = inputValidatePath();
+        parameters[2] = outputValidatePath();
         if (parameters[0].equals("1") || parameters[0].equals("2")) {
-            parameters[3] = selectOffset(scanner);
+            parameters[3] = selectOffset();
         }
-        scanner.close();
         return parameters;
     }
 
     @Override
-    public Result printResult(Result result) {
-        return result;
+    public void printResult(Result result) {
+        System.out.println(result.getResultCode());
+        System.out.println(result.getException());
     }
 
-    private String selectMode(Scanner scanner) {
+    private String selectMode() {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Введите номер режима программы: 1 - encode, 2 - decode, 3 - brute force");
         Integer mode = 0;
         while (true) {
@@ -46,7 +47,8 @@ public class ConsoleView implements View {
         }
     }
 
-    private String selectOffset(Scanner scanner) {
+    private String selectOffset() {
+        Scanner scanner = new Scanner(System.in);
         Integer offset;
         while (true) {
             System.out.println("Введите сдвиг");
@@ -63,7 +65,8 @@ public class ConsoleView implements View {
         }
     }
 
-    private String inputValidatePath(Scanner scanner) {
+    private String inputValidatePath() {
+        Scanner scanner = new Scanner(System.in);
         System.out.println(INPUT_FILE_SOUTH);
         String text = scanner.nextLine();
         if (text.isEmpty()) {
@@ -89,7 +92,8 @@ public class ConsoleView implements View {
         }
     }
 
-    private String outputValidatePath(Scanner scanner) {
+    private String outputValidatePath() {
+        Scanner scanner = new Scanner(System.in);
         System.out.println(OUTPUT_FILE_SOUTH);
         String text = scanner.nextLine();
         if (text.isEmpty()) {

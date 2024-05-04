@@ -19,4 +19,8 @@ public class Application {
         Function function = new SelectionMode(mode).executeMode();
         return function.execute(parameters);
     }
+
+    public void viewResult (Result result){
+        mainController.getView().printResult(result);
+    }
 }

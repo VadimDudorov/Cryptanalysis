@@ -1,11 +1,58 @@
 package main.javarush.cryptoanalysis.function;
 
 import main.javarush.cryptoanalysis.entity.Result;
+import main.javarush.cryptoanalysis.exception.CryptanalysisException;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static main.javarush.cryptoanalysis.constants.CryptanalysisConstants.*;
 
 public class Decode implements Function {
     @Override
     public Result execute(String[] parameters) {
-        //TODO перенести логику расшифровки
+        //TODO обновить логику расщифровки
         return null;
+    }
+
+    public List<Character> decoding(List<Character> text) {
+        int offset = 5;
+        List<Character> decodingText = new ArrayList<>();
+        for (Character iterator : text) {
+            int index = 0;
+            for (int i = 0; i < ALPHABET.length; i++) {
+                if (iterator.equals(ALPHABET[i])) {
+                    index = Math.abs((i - offset + ALPHABET.length) % ALPHABET.length);
+                    break;
+                } else {
+                    throw new CryptanalysisException("Переданного символа нет в алфавите " + iterator);
+                }
+            }
+            decodingText.add(ALPHABET[index]);
+        }
+        return decodingText;
+    }
+
+    private List<Character> inputFile(String path) throws IOException {
+        List<Character> characterList = new ArrayList<>();
+        try (Reader fileReader = new FileReader(path);
+             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+            while (bufferedReader.ready()) {
+                characterList.add((char) bufferedReader.read());
+            }
+        }
+        return characterList;
+    }
+
+    private void outputFile(List<Character> outputText, String path) throws IOException {
+        char[] outputTextChars = new char[outputText.size()];
+        for (int i = 0; i < outputText.size(); i++) {
+            outputTextChars[i] = outputText.get(i);
+        }
+        try (Writer writer = new FileWriter(path);
+             BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
+            bufferedWriter.write(outputTextChars);
+        }
     }
 }

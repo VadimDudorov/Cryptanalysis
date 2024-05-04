@@ -15,4 +15,12 @@ public class Result {
         this.resultCode = resultCode;
         this.exception = exception;
     }
+
+    public ResultCode getResultCode() {
+        return resultCode;
+    }
+
+    public CryptanalysisException getException() {
+        return exception;
+    }
 }
