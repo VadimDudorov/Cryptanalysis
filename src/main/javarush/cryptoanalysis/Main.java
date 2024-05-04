@@ -1,30 +1,25 @@
+package main.javarush.cryptoanalysis;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import Exception.InputCryptanalysisException;
+import main.javarush.cryptoanalysis.exception.CryptanalysisException;
+import main.javarush.cryptoanalysis.app.Application;
+import main.javarush.cryptoanalysis.controller.MainController;
+import main.javarush.cryptoanalysis.entity.Result;
+import main.javarush.cryptoanalysis.view.ConsoleView;
+import main.javarush.cryptoanalysis.view.View;
 
 public class Main {
-    public static final Character[] ALPHABET = {'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З',
-            'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ',
-            'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я', 'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з',
-            'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ',
-            'ъ', 'ы', 'ь', 'э', 'ю', 'я', '.', ',', '«', '»', '"', '\'', '\\', '\n', ';', ':', '!', '?', ' ', '—'};
-
     public static void main(String[] args) throws IOException {
+        View view = new ConsoleView();
+        MainController mainController = new MainController(view);
+        Application application = new Application(mainController);
 
-        Main main = new Main();
-
-//        String pathInput = main.validatePath();
-//        List<Character> textEncript = main.inputFile(pathInput);
-//        List<Character> encript = main.encryption(textEncript);
-//        main.outputFile(encript);
-
-        String pathOutput = main.validatePath();
-        List<Character> textDecoding = main.inputFile(pathOutput);
-        List<Character> decoding = main.decoding(textDecoding);
-        main.outputFile(decoding);
+        Result resultApp = application.run();
+        System.out.println(resultApp);
     }
 
     public String validatePath() {
@@ -41,15 +36,15 @@ public class Main {
                 if (indexTxt != -1) {
                     substring = text.substring(indexTxt);
                 } else {
-                    throw new InputCryptanalysisException("Формат файла не равен .txt");
+                    throw new CryptanalysisException("Формат файла не равен .txt");
                 }
                 if (substring.equals(".txt")) {
                     return text;
                 } else {
-                    throw new InputCryptanalysisException("Формат файла не равен .txt");
+                    throw new CryptanalysisException("Формат файла не равен .txt");
                 }
             } else {
-                throw new InputCryptanalysisException("Не верный формат файла");
+                throw new CryptanalysisException("Не верный формат файла");
             }
         }
     }
@@ -135,7 +130,7 @@ public class Main {
                     index = Math.abs((i - displacement + ALPHABET.length) % ALPHABET.length);
                     break;
                 } else {
-                    throw new InputCryptanalysisException("Переданного символа нет в алфавите " + iterator);
+                    throw new CryptanalysisException("Переданного символа нет в алфавите " + iterator);
                 }
             }
             decodingText.add(ALPHABET[index]);
