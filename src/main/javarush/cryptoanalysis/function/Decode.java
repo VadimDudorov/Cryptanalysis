@@ -2,6 +2,7 @@ package main.javarush.cryptoanalysis.function;
 
 import main.javarush.cryptoanalysis.entity.Result;
 import main.javarush.cryptoanalysis.exception.CryptanalysisException;
+import main.javarush.cryptoanalysis.repository.ResultCode;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,27 +13,40 @@ import static main.javarush.cryptoanalysis.constants.CryptanalysisConstants.*;
 public class Decode implements Function {
     @Override
     public Result execute(String[] parameters) {
-        //TODO обновить логику расщифровки
-        return null;
-    }
+        String inputPath = parameters[1];
+        String outPath = parameters[2];
+        int offset = Integer.parseInt(parameters[3]);
 
-    public List<Character> decoding(List<Character> text) {
-        int offset = 5;
-        List<Character> decodingText = new ArrayList<>();
+        List<Character> textDecode = new ArrayList<>();
+        List<Character> text;
+        try {
+            text = inputFile(inputPath);
+        } catch (IOException e){
+            throw new CryptanalysisException(e.getMessage());
+        }
+
         for (Character iterator : text) {
-            int index = 0;
+            int index = -1;
             for (int i = 0; i < ALPHABET.length; i++) {
                 if (iterator.equals(ALPHABET[i])) {
                     index = Math.abs((i - offset + ALPHABET.length) % ALPHABET.length);
+                    textDecode.add(ALPHABET[index]);
                     break;
-                } else {
-                    throw new CryptanalysisException("Переданного символа нет в алфавите " + iterator);
                 }
             }
-            decodingText.add(ALPHABET[index]);
+            if (index == -1){
+                throw new CryptanalysisException("Переданного символа нет в алфавите " + iterator);
+            }
         }
-        return decodingText;
+       try {
+           outputFile(textDecode, outPath);
+       } catch (IOException e){
+           throw new CryptanalysisException(e.getMessage());
+       }
+       return new Result(ResultCode.OK);
     }
+
+
 
     private List<Character> inputFile(String path) throws IOException {
         List<Character> characterList = new ArrayList<>();
