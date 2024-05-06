@@ -21,7 +21,7 @@ public class Decode implements Function {
         List<Character> text;
         try {
             text = inputFile(inputPath);
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new CryptanalysisException(e.getMessage());
         }
 
@@ -34,19 +34,17 @@ public class Decode implements Function {
                     break;
                 }
             }
-            if (index == -1){
+            if (index == -1) {
                 throw new CryptanalysisException("Переданного символа нет в алфавите " + iterator);
             }
         }
-       try {
-           outputFile(textDecode, outPath);
-       } catch (IOException e){
-           throw new CryptanalysisException(e.getMessage());
-       }
-       return new Result(ResultCode.OK);
+        try {
+            outputFile(textDecode, outPath);
+        } catch (IOException e) {
+            throw new CryptanalysisException(e.getMessage());
+        }
+        return new Result(ResultCode.OK);
     }
-
-
 
     private List<Character> inputFile(String path) throws IOException {
         List<Character> characterList = new ArrayList<>();
