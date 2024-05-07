@@ -24,29 +24,27 @@ public class BruteForce implements Function {
 
         try {
             text = inputFile(inputPath);
-        } catch (IOException e) {
-            throw new CryptanalysisException(e.getMessage());
-        }
 
-        for (int offset = 0; offset < ALPHABET.length; offset++) {
-            for (Character iterator : text) {
-                int index = -1;
-                for (int i = 0; i < ALPHABET.length; i++) {
-                    if (iterator.equals(ALPHABET[i])) {
-                        index = Math.abs((i - offset + ALPHABET.length) % ALPHABET.length);
-                        textDecode.add(ALPHABET[index]);
-                        break;
+            for (int offset = 0; offset < ALPHABET.length; offset++) {
+                for (Character iterator : text) {
+                    int index = -1;
+                    for (int i = 0; i < ALPHABET.length; i++) {
+                        if (iterator.equals(ALPHABET[i])) {
+                            index = Math.abs((i - offset + ALPHABET.length) % ALPHABET.length);
+                            textDecode.add(ALPHABET[index]);
+                            break;
+                        }
+                    }
+                    if (index == -1) {
+                        throw new CryptanalysisException("Переданного символа нет в алфавите " + iterator);
                     }
                 }
-                if (index == -1) {
-                    throw new CryptanalysisException("Переданного символа нет в алфавите " + iterator);
-                }
-            }
-            arraysTextDecode.add(textDecode);
-        }
 
-        try {
-            outputFile(decodeArrays(arraysTextDecode), outPath);
+                arraysTextDecode.add(textDecode);
+
+                outputFile(decodeArrays(arraysTextDecode), outPath);
+
+            }
         } catch (IOException e) {
             throw new CryptanalysisException(e.getMessage());
         }
@@ -77,25 +75,30 @@ public class BruteForce implements Function {
 
     private List<Character> decodeArrays(List<List<Character>> arrays) {
         StringBuilder stringsChar = new StringBuilder();
-        int [] countChar = new int[ALPHABET.length];
+
+        int[] countChar = new int[ALPHABET.length];
+
         int counter = 0;
+
         for (List<Character> iteratorArrays : arrays) {
             for (Character iteratorChar : iteratorArrays) {
-                stringsChar.append(String.valueOf(iteratorChar).repeat(iteratorArrays.size()));
+                stringsChar.append(iteratorChar);
             }
             String[] strings = new String[iteratorArrays.size()];
             for (int i = 0; i < strings.length; i += 2) {
-                strings[i] = stringsChar.substring(i, i + 2);
+                strings[i] = stringsChar.substring(i, i + 3);
             }
-            for (int i = 0; i < strings.length; i++) {
-                if (strings[i].equals(Dictionary.DICTIONARY_RUS[i])){
-                    countChar[counter]++;
+            for (String string : strings) {
+                for (int j = 0; j < ALPHABET.length; j++) {
+                    if (string.equals(Dictionary.DICTIONARY_RUS[j])) {
+                        countChar[counter]++;
+                    }
                 }
             }
             counter++;
         }
 
         Arrays.sort(countChar);
-        return arrays.get(countChar[0]);
+        return arrays.get(countChar[countChar.length - 1]);
     }
 }

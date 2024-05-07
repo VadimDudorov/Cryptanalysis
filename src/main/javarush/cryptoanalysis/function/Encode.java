@@ -22,27 +22,20 @@ public class Encode implements Function {
 
         try {
             text = inputFile(inputPath);
-        } catch (IOException e) {
-            return new Result(ERROR, new CryptanalysisException(e.getMessage()));
-        }
-
-        for (Character iteratorText : text) {
-            int index;
-            for (int i = 0; i < ALPHABET.length; i++) {
-                if (iteratorText.equals(ALPHABET[i])) {
-                    index = (i + offset) % ALPHABET.length;
-                    textEncryption.add(ALPHABET[index]);
-                    break;
+            for (Character iteratorText : text) {
+                int index;
+                for (int i = 0; i < ALPHABET.length; i++) {
+                    if (iteratorText.equals(ALPHABET[i])) {
+                        index = (i + offset) % ALPHABET.length;
+                        textEncryption.add(ALPHABET[index]);
+                        break;
+                    }
                 }
             }
-        }
-
-        try {
             outputFile(textEncryption, outPath);
         } catch (IOException e) {
             return new Result(ERROR, new CryptanalysisException(e.getMessage()));
         }
-
         return new Result(OK);
     }
 

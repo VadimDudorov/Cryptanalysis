@@ -21,24 +21,19 @@ public class Decode implements Function {
         List<Character> text;
         try {
             text = inputFile(inputPath);
-        } catch (IOException e) {
-            throw new CryptanalysisException(e.getMessage());
-        }
-
-        for (Character iterator : text) {
-            int index = -1;
-            for (int i = 0; i < ALPHABET.length; i++) {
-                if (iterator.equals(ALPHABET[i])) {
-                    index = Math.abs((i - offset + ALPHABET.length) % ALPHABET.length);
-                    textDecode.add(ALPHABET[index]);
-                    break;
+            for (Character iterator : text) {
+                int index = -1;
+                for (int i = 0; i < ALPHABET.length; i++) {
+                    if (iterator.equals(ALPHABET[i])) {
+                        index = Math.abs((i - offset + ALPHABET.length) % ALPHABET.length);
+                        textDecode.add(ALPHABET[index]);
+                        break;
+                    }
+                }
+                if (index == -1) {
+                    throw new CryptanalysisException("Переданного символа нет в алфавите " + iterator);
                 }
             }
-            if (index == -1) {
-                throw new CryptanalysisException("Переданного символа нет в алфавите " + iterator);
-            }
-        }
-        try {
             outputFile(textDecode, outPath);
         } catch (IOException e) {
             throw new CryptanalysisException(e.getMessage());
