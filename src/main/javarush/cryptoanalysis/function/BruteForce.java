@@ -1,6 +1,5 @@
 package main.javarush.cryptoanalysis.function;
 
-import main.javarush.cryptoanalysis.constants.Dictionary;
 import main.javarush.cryptoanalysis.entity.Result;
 import main.javarush.cryptoanalysis.exception.CryptanalysisException;
 import main.javarush.cryptoanalysis.repository.ResultCode;
@@ -9,8 +8,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static main.javarush.cryptoanalysis.constants.CryptanalysisConstants.ALPHABET;
+import static main.javarush.cryptoanalysis.constants.Dictionary.DICTIONARY_REGEX_RUS;
 
 public class BruteForce implements Function {
     @Override
@@ -39,17 +41,16 @@ public class BruteForce implements Function {
                         throw new CryptanalysisException("Переданного символа нет в алфавите " + iterator);
                     }
                 }
-
                 arraysTextDecode.add(textDecode);
-
-                outputFile(decodeArrays(arraysTextDecode), outPath);
-
             }
+            outputFile(decodeArrays(arraysTextDecode), outPath);
+            return new Result(ResultCode.OK);
+
         } catch (IOException e) {
             throw new CryptanalysisException(e.getMessage());
         }
-        return new Result(ResultCode.OK);
     }
+
 
     private List<Character> inputFile(String path) throws IOException {
         List<Character> characterList = new ArrayList<>();
@@ -74,31 +75,26 @@ public class BruteForce implements Function {
     }
 
     private List<Character> decodeArrays(List<List<Character>> arrays) {
-        StringBuilder stringsChar = new StringBuilder();
-
-        int[] countChar = new int[ALPHABET.length];
-
-        int counter = 0;
+        int[] countChar = new int[arrays.size()];
+        int countCharI = 0;
 
         for (List<Character> iteratorArrays : arrays) {
+            int counter = 0;
+            StringBuilder stringsChar = new StringBuilder();
             for (Character iteratorChar : iteratorArrays) {
                 stringsChar.append(iteratorChar);
             }
-            String[] strings = new String[iteratorArrays.size()];
-            for (int i = 0; i < strings.length; i += 2) {
-                strings[i] = stringsChar.substring(i, i + 3);
-            }
-            for (String string : strings) {
-                for (int j = 0; j < ALPHABET.length; j++) {
-                    if (string.equals(Dictionary.DICTIONARY_RUS[j])) {
-                        countChar[counter]++;
-                    }
+            for (String dictionaryRegexRus : DICTIONARY_REGEX_RUS) {
+                Pattern pattern = Pattern.compile(dictionaryRegexRus);
+                Matcher matcher = pattern.matcher(stringsChar);
+                while (matcher.find()) {
+                    counter++;
                 }
             }
-            counter++;
+            countChar[countCharI] = counter;
+            countCharI++;
         }
-
         Arrays.sort(countChar);
-        return arrays.get(countChar[countChar.length - 1]);
+        return arrays.get(countChar[countChar.length-1]);
     }
 }
