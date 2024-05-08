@@ -21,6 +21,8 @@ bin/
 /dist/
 /nbdist/
 /.nb-gradle/
+.idea/
+Cryptanalysis.iml
 
 ### VS Code ###
 .vscode/
