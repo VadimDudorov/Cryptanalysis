@@ -7,7 +7,7 @@ import main.javarush.cryptoanalysis.function.SelectionMode;
 
 
 public class Application {
-    private MainController mainController;
+    private final MainController mainController;
 
     public Application(MainController mainController){
         this.mainController = mainController;

@@ -2,7 +2,6 @@ package main.javarush.cryptoanalysis.view;
 
 import main.javarush.cryptoanalysis.entity.Result;
 import main.javarush.cryptoanalysis.exception.CryptanalysisException;
-import main.javarush.cryptoanalysis.repository.ResultCode;
 
 import java.util.Scanner;
 
@@ -32,12 +31,12 @@ public class ConsoleView implements View {
     private String selectMode() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите номер режима программы: 1 - encode, 2 - decode, 3 - brute force");
-        Integer mode = 0;
+        int mode;
         while (true) {
             if (scanner.hasNextInt()) {
                 mode = scanner.nextInt();
                 if (mode == 1 || mode == 2 || mode == 3) {
-                    return mode.toString();
+                    return Integer.toString(mode);
                 } else {
                     System.out.println("Введитие номер режима из предложенного списка");
                 }
@@ -49,13 +48,13 @@ public class ConsoleView implements View {
 
     private String selectOffset() {
         Scanner scanner = new Scanner(System.in);
-        Integer offset;
+        int offset;
         while (true) {
             System.out.println("Введите сдвиг");
             if (scanner.hasNextInt()) {
                 offset = scanner.nextInt();
                 if (offset > 0 && offset < ALPHABET.length) {
-                    return offset.toString();
+                    return Integer.toString(offset);
                 } else {
                     System.out.println("Введите число больше 0 и меньше " + ALPHABET.length);
                 }

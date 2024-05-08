@@ -6,7 +6,6 @@ import main.javarush.cryptoanalysis.repository.ResultCode;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,7 +24,7 @@ public class BruteForce implements Function {
         try {
             List<Character> text = inputFile(inputPath);
 
-            for (int offset = 0; offset < ALPHABET.length; offset++) {
+            for (int offset = 0; offset <= ALPHABET.length; offset++) {
                 List<Character> textDecode = getCharacter(text, offset);
                 arraysTextDecode.add(textDecode);
             }
@@ -99,12 +98,14 @@ public class BruteForce implements Function {
             countCharI++;
         }
 
-        Arrays.sort(countChar);
+        int max = countChar[0];
+        int index = 0;
         for (int i = 0; i < countChar.length; i++) {
-            if (countChar[countChar.length - 1] == countChar[i]) {
-                countCharI = i;
+            if (max < countChar[i]) {
+                max = countChar[i];
+                index = i;
             }
         }
-        return arrays.get(countCharI);
+        return arrays.get(index);
     }
 }

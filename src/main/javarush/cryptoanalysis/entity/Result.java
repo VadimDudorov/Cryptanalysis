@@ -4,7 +4,7 @@ import main.javarush.cryptoanalysis.exception.CryptanalysisException;
 import main.javarush.cryptoanalysis.repository.ResultCode;
 
 public class Result {
-    private ResultCode resultCode;
+    private final ResultCode resultCode;
     private CryptanalysisException exception;
 
     public Result(ResultCode resultCode){

@@ -10,7 +10,7 @@ public enum Functions {
     DECODE(new Decode()),
     BRUTE_FORCE(new BruteForce());
 
-    private Function function;
+    private final Function function;
 
     Functions(Function function) {
         this.function = function;

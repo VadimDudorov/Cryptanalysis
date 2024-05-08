@@ -1,7 +1,5 @@
 package main.javarush.cryptoanalysis;
 
-import java.io.*;
-
 import main.javarush.cryptoanalysis.app.Application;
 import main.javarush.cryptoanalysis.controller.MainController;
 import main.javarush.cryptoanalysis.entity.Result;
@@ -9,7 +7,7 @@ import main.javarush.cryptoanalysis.view.ConsoleView;
 import main.javarush.cryptoanalysis.view.View;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         View view = new ConsoleView();
         MainController mainController = new MainController(view);
         Application application = new Application(mainController);

@@ -1,6 +1,6 @@
 package main.javarush.cryptoanalysis.exception;
 
-public class CryptanalysisException extends RuntimeException{
+public class CryptanalysisException extends RuntimeException {
     public CryptanalysisException() {
     }
 
