@@ -21,26 +21,12 @@ public class BruteForce implements Function {
         String outPath = parameters[2];
 
         List<List<Character>> arraysTextDecode = new ArrayList<>();
-        List<Character> textDecode = new ArrayList<>();
-        List<Character> text;
 
         try {
-            text = inputFile(inputPath);
+            List<Character> text = inputFile(inputPath);
 
             for (int offset = 0; offset < ALPHABET.length; offset++) {
-                for (Character iterator : text) {
-                    int index = -1;
-                    for (int i = 0; i < ALPHABET.length; i++) {
-                        if (iterator.equals(ALPHABET[i])) {
-                            index = Math.abs((i - offset + ALPHABET.length) % ALPHABET.length);
-                            textDecode.add(ALPHABET[index]);
-                            break;
-                        }
-                    }
-                    if (index == -1) {
-                        throw new CryptanalysisException("Переданного символа нет в алфавите " + iterator);
-                    }
-                }
+                List<Character> textDecode = getCharacter(text, offset);
                 arraysTextDecode.add(textDecode);
             }
             outputFile(decodeArrays(arraysTextDecode), outPath);
@@ -49,6 +35,24 @@ public class BruteForce implements Function {
         } catch (IOException e) {
             throw new CryptanalysisException(e.getMessage());
         }
+    }
+
+    private List<Character> getCharacter(List<Character> text, int offset) {
+        List<Character> textDecode = new ArrayList<>();
+        for (Character iterator : text) {
+            int index = -1;
+            for (int i = 0; i < ALPHABET.length; i++) {
+                if (iterator.equals(ALPHABET[i])) {
+                    index = Math.abs((i - offset + ALPHABET.length) % ALPHABET.length);
+                    textDecode.add(ALPHABET[index]);
+                    break;
+                }
+            }
+            if (index == -1) {
+                throw new CryptanalysisException("Переданного символа нет в алфавите " + iterator);
+            }
+        }
+        return textDecode;
     }
 
 
@@ -94,7 +98,13 @@ public class BruteForce implements Function {
             countChar[countCharI] = counter;
             countCharI++;
         }
+
         Arrays.sort(countChar);
-        return arrays.get(countChar[countChar.length-1]);
+        for (int i = 0; i < countChar.length; i++) {
+            if (countChar[countChar.length - 1] == countChar[i]) {
+                countCharI = i;
+            }
+        }
+        return arrays.get(countCharI);
     }
 }
