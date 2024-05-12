@@ -1,6 +1,5 @@
 package main.javarush.cryptoanalysis.view;
 
-import main.javarush.cryptoanalysis.constants.Regex;
 import main.javarush.cryptoanalysis.entity.Result;
 import main.javarush.cryptoanalysis.exception.CryptanalysisException;
 
@@ -10,6 +9,7 @@ import java.util.regex.Pattern;
 
 import static main.javarush.cryptoanalysis.constants.CryptanalysisConstants.*;
 import static main.javarush.cryptoanalysis.constants.ErrorMessage.*;
+import static main.javarush.cryptoanalysis.constants.Regex.VALIDATE_PATH;
 
 public class ConsoleView implements View {
 
@@ -71,7 +71,7 @@ public class ConsoleView implements View {
         Scanner scanner = new Scanner(System.in);
         System.out.println(INPUT_FILE_SOUTH);
         String text = scanner.nextLine();
-        Pattern pattern = Pattern.compile(Regex.getValidatePath());
+        Pattern pattern = Pattern.compile(VALIDATE_PATH);
         Matcher matcher = pattern.matcher(text);
         if (text.isEmpty()) {
             return INPUT_FILE;
@@ -86,7 +86,7 @@ public class ConsoleView implements View {
         Scanner scanner = new Scanner(System.in);
         System.out.println(OUTPUT_FILE_SOUTH);
         String text = scanner.nextLine();
-        Pattern pattern = Pattern.compile(Regex.getValidatePath());
+        Pattern pattern = Pattern.compile(VALIDATE_PATH);
         Matcher matcher = pattern.matcher(text);
         if (text.isEmpty()) {
             return OUTPUT_FILE;
