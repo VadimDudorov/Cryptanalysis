@@ -83,29 +83,11 @@ public class SwingView extends JFrame implements View {
 
     private void initializeListener() {
         buttonStart.addActionListener(e -> {
-            if (!encode.isSelected() && !decode.isSelected()
-                    && !bruteForce.isSelected() && !analysis.isSelected()) {
-                JOptionPane.showMessageDialog(null, "Укажите функцию",
-                        "Предупреждение", JOptionPane.WARNING_MESSAGE);
-            }
-            parameters[0] = inputFile.getText();
-            parameters[1] = outputFile.getText();
-            parameters[2] = offset.getText();
+                if (validateStart()) {
+                    JOptionPane.showMessageDialog(this, "Программа успешно отработала!",
+                            null, JOptionPane.INFORMATION_MESSAGE);
+                }
 
-            if (!validatePath(parameters[0])) {
-                JOptionPane.showMessageDialog(null, "Путь вхоядщего файла не верно указан",
-                        "Предупреждение", JOptionPane.WARNING_MESSAGE);
-            }
-            if (!validatePath(parameters[1])) {
-                JOptionPane.showMessageDialog(null, "Путь исходящего файла не верно указан",
-                        "Предупреждение", JOptionPane.WARNING_MESSAGE);
-            }
-            if ((parameters[3].equals("1") || parameters[3].equals("2")) && (!offsetValidate(parameters[2]))) {
-                    JOptionPane.showMessageDialog(null, "Не верно указан шаг",
-                            "Предупреждение", JOptionPane.WARNING_MESSAGE);
-
-            }
-            JOptionPane.showMessageDialog(this, "Программа успешно отработала!", null, JOptionPane.INFORMATION_MESSAGE);
         });
 
         encode.addActionListener(e -> {
@@ -175,6 +157,35 @@ public class SwingView extends JFrame implements View {
         Pattern pattern = Pattern.compile(OFFSET_VALIDATE);
         Matcher matcher = pattern.matcher(offset);
         return matcher.matches();
+    }
+
+    private boolean validateStart() {
+        if (!encode.isSelected() && !decode.isSelected()
+                && !bruteForce.isSelected() && !analysis.isSelected()) {
+            JOptionPane.showMessageDialog(null, "Укажите функцию",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        parameters[0] = inputFile.getText();
+        parameters[1] = outputFile.getText();
+        parameters[2] = offset.getText();
+
+        if (!validatePath(parameters[0])) {
+            JOptionPane.showMessageDialog(null, "Путь вхоядщего файла не верно указан",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if (!validatePath(parameters[1])) {
+            JOptionPane.showMessageDialog(null, "Путь исходящего файла не верно указан",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if ((parameters[3].equals("1") || parameters[3].equals("2")) && (!offsetValidate(parameters[2]))) {
+            JOptionPane.showMessageDialog(null, "Не верно указан шаг",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
 }
