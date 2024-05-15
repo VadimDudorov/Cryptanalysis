@@ -83,18 +83,17 @@ public class SwingView extends JFrame implements View {
 
     private void initializeListener() {
         buttonStart.addActionListener(e -> {
-                if (validateStart()) {
-                    JOptionPane.showMessageDialog(this, "Программа успешно отработала!",
-                            null, JOptionPane.INFORMATION_MESSAGE);
-                }
-
+            if (validateStart()) {
+                JOptionPane.showMessageDialog(this, "Программа успешно отработала!",
+                        null, JOptionPane.INFORMATION_MESSAGE);
+            }
         });
 
         encode.addActionListener(e -> {
             offsetText.setVisible(true);
             offset.setVisible(true);
 
-            parameters[3] = "1";
+            parameters[0] = "1";
             decode.setSelected(false);
             bruteForce.setSelected(false);
             analysis.setSelected(false);
@@ -103,7 +102,7 @@ public class SwingView extends JFrame implements View {
             offsetText.setVisible(true);
             offset.setVisible(true);
 
-            parameters[3] = "2";
+            parameters[0] = "2";
             encode.setSelected(false);
             bruteForce.setSelected(false);
             analysis.setSelected(false);
@@ -112,7 +111,7 @@ public class SwingView extends JFrame implements View {
             offsetText.setVisible(false);
             offset.setVisible(false);
 
-            parameters[3] = "3";
+            parameters[0] = "3";
             decode.setSelected(false);
             encode.setSelected(false);
             analysis.setSelected(false);
@@ -121,7 +120,7 @@ public class SwingView extends JFrame implements View {
             offsetText.setVisible(false);
             offset.setVisible(false);
 
-            parameters[3] = "4";
+            parameters[0] = "4";
             decode.setSelected(false);
             bruteForce.setSelected(false);
             encode.setSelected(false);
@@ -139,6 +138,11 @@ public class SwingView extends JFrame implements View {
 
     @Override
     public String[] collectingInformation() {
+        while (true) {
+            if (parameters[0] != null) {
+                break;
+            }
+        }
         return parameters;
     }
 
@@ -166,21 +170,21 @@ public class SwingView extends JFrame implements View {
                     "Предупреждение", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        parameters[0] = inputFile.getText();
-        parameters[1] = outputFile.getText();
-        parameters[2] = offset.getText();
+        parameters[1] = inputFile.getText();
+        parameters[2] = outputFile.getText();
+        parameters[3] = offset.getText();
 
-        if (!validatePath(parameters[0])) {
+        if (!validatePath(parameters[1])) {
             JOptionPane.showMessageDialog(null, "Путь вхоядщего файла не верно указан",
                     "Предупреждение", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        if (!validatePath(parameters[1])) {
+        if (!validatePath(parameters[2])) {
             JOptionPane.showMessageDialog(null, "Путь исходящего файла не верно указан",
                     "Предупреждение", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        if ((parameters[3].equals("1") || parameters[3].equals("2")) && (!offsetValidate(parameters[2]))) {
+        if ((parameters[0].equals("1") || parameters[0].equals("2")) && (!offsetValidate(parameters[3]))) {
             JOptionPane.showMessageDialog(null, "Не верно указан шаг",
                     "Предупреждение", JOptionPane.WARNING_MESSAGE);
             return false;

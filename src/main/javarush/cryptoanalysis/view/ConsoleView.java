@@ -28,7 +28,9 @@ public class ConsoleView implements View {
     @Override
     public void printResult(Result result) {
         System.out.println(result.getResultCode());
-        System.out.println(result.getException());
+        if (result.getException() != null) {
+            System.out.println(result.getException());
+        }
     }
 
     private String selectMode() {

@@ -10,6 +10,6 @@ public class CryptanalysisConstants {
     public static final String INPUT_FILE_SOUTH = "Введите путь к файлу (с расширением.txt) \nили нажмите Enter для дефолтного пути";
     public static final String OUTPUT_FILE_SOUTH = "Введите путь куда записать результат файла (с расширением.txt) " +
             "\nили нажмите Enter для дефолтного пути";
-    public static final String INPUT_FILE = "/Users/vadimdudorov/Downloads/in.txt";
+    public static final String INPUT_FILE = "/Users/vadimdudorov/Downloads/inEncode.txt";
     public static final String OUTPUT_FILE = "/Users/vadimdudorov/Downloads/out.txt";
 }

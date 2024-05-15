@@ -3,6 +3,7 @@ package main.javarush.cryptoanalysis;
 import main.javarush.cryptoanalysis.app.Application;
 import main.javarush.cryptoanalysis.controller.MainController;
 import main.javarush.cryptoanalysis.entity.Result;
+import main.javarush.cryptoanalysis.view.ConsoleView;
 import main.javarush.cryptoanalysis.view.SwingView;
 import main.javarush.cryptoanalysis.view.View;
 
